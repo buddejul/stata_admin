@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Set up simulated data in Stata &#8212; My sample book</title>
+    <title>Stata Admin Programming &#8212; My sample book</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -108,7 +108,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Set up simulated data in Stata
+   Stata Admin Programming
   </a>
  </li>
 </ul>
@@ -217,8 +217,15 @@
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   Set up simulated data in Stata
+   Stata Admin Programming
   </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-up-simulated-data-in-stata">
+     Set up simulated data in Stata
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#working-with-yearly-panels">
@@ -250,27 +257,27 @@
         
               <div>
                 
-  <div class="cell docutils container">
+  <div class="tex2jax_ignore mathjax_ignore section" id="stata-admin-programming">
+<h1>Stata Admin Programming<a class="headerlink" href="#stata-admin-programming" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">stata_setup</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">stata_setup</span>
+<span class="kn">import</span> <span class="nn">stata_setup</span>
 <span class="n">stata_setup</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;C:/Program Files/Stata17&quot;</span><span class="p">,</span> <span class="s2">&quot;se&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span><span class="o">/</span><span class="n">ipykernel_20188</span><span class="o">/</span><span class="mf">571653080.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">stata_setup</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">stata_setup</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;C:/Program Files/Stata17&quot;</span><span class="p">,</span> <span class="s2">&quot;se&quot;</span><span class="p">)</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;stata_setup&#39;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;C:\Users\budde\AppData\Local\Temp/ipykernel_15484/54536735.py&quot;</span><span class="gt">, line </span><span class="mi">1</span>
+    <span class="n">pip</span> <span class="n">install</span> <span class="n">stata_setup</span>
+              <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="set-up-simulated-data-in-stata">
-<h1>Set up simulated data in Stata<a class="headerlink" href="#set-up-simulated-data-in-stata" title="Permalink to this headline">¶</a></h1>
+<h2>Set up simulated data in Stata<a class="headerlink" href="#set-up-simulated-data-in-stata" title="Permalink to this headline">¶</a></h2>
 <p>Data broadly resembles a year panel based on IAB data with person (persnr), establishment (betnr) and year identifiers.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -288,31 +295,6 @@ gen german = runiformint(0,1)
 bysort persnr: replace german = german[_N]
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. clear all
-
-. set obs 10000000
-Number of observations (_N) was 0, now 10,000,000.
-
-. 
-. gen betnr = runiformint(1, 1000)
-
-. gen persnr = runiformint(1,100000)
-
-. gen year = runiformint(1972, 2019)
-
-. 
-. gen double tentgelt = runiform(0, 100000) 
-
-. 
-. gen german = runiformint(0,1)
-
-. bysort persnr: replace german = german[_N]
-(4,952,565 real changes made)
-
-. 
-</pre></div>
 </div>
 </div>
 </div>
@@ -333,19 +315,6 @@ Number of observations (_N) was 0, now 10,000,000.
 gen max_tentgelt = tentgelt
 bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
 bysort persnr: replace max_tentgelt = max_tentgelt[_N]
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen max_tentgelt = tentgelt
-
-. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
-(9,481,497 real changes made)
-
-. bysort persnr: replace max_tentgelt = max_tentgelt[_N]
-(4,945,015 real changes made)
-
-. 
 </pre></div>
 </div>
 </div>
@@ -374,50 +343,6 @@ assert max_tentgelt == max_tentgelt_egen
 assert max_tentgelt == max_tentgelt_gegen
 
 timer list
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. drop max_tentgelt
-
-. timer on 1
-
-. gen double max_tentgelt = tentgelt
-
-. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
-(9,481,497 real changes made)
-
-. bysort persnr: replace max_tentgelt = max_tentgelt[_N]
-(4,945,015 real changes made)
-
-. timer off 1
-
-. 
-. timer on 2
-
-. egen double max_tentgelt_egen = max(tentgelt), by(persnr)
-
-. timer off 2
-
-. 
-. timer on 3
-
-. gegen double max_tentgelt_gegen = max(tentgelt), by(persnr)
-
-. timer off 3
-
-. 
-. assert max_tentgelt == max_tentgelt_egen
-
-. assert max_tentgelt == max_tentgelt_gegen
-
-. 
-. timer list
-   1:      1.90 /        1 =       1.9010
-   2:      3.17 /        1 =       3.1690
-   3:      0.64 /        1 =       0.6400
-
-. 
 </pre></div>
 </div>
 </div>
