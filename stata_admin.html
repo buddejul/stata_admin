@@ -215,62 +215,90 @@
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Stata Admin Programming
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up-simulated-data-in-stata">
+   Set up simulated data in Stata
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#set-up-simulated-data-in-stata">
-     Set up simulated data in Stata
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#working-with-yearly-panels">
-   Working with yearly panels
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#yearly-panels">
+   Yearly Panels
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#egen-max">
-     Egen: max()
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#replacing-egen-functions">
+     Replacing egen functions
     </a>
     <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#max">
+       max
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#run-time-comparison">
        Run-time comparison
       </a>
      </li>
     </ul>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#egen-min">
-     Egen: min()
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#min">
+     min
     </a>
     <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#id1">
        Run-time comparison
       </a>
      </li>
     </ul>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#egen-rank">
-     Egen: rank()
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rank">
+     rank
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#rank-low-to-high-non-arbitrary-tie-breaks">
-       rank() - low-to-high, (non-)arbitrary tie breaks
-      </a>
-     </li>
-    </ul>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rank-low-to-high-non-arbitrary-tie-breaks">
+     rank - low-to-high, (non-)arbitrary tie breaks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#id2">
      Run-time comparison
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#specific-panel-variable-types">
+   Specific Panel Variable Types
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ever">
+     ever
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#previously">
+     previously
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#previously-in-current-establishment">
+     previously in current establishment
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prior-period">
+     prior period
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prior-establishment">
+     prior establishment
     </a>
    </li>
   </ul>
@@ -337,6 +365,8 @@ cap drop random
 gen random = runiform(0,1)
 replace tentgelt = . if random &lt; 0.05
 
+gen ui = inrange(random, 0.05, 0.1)
+
 gen german = runiformint(0,1)
 bysort persnr: replace german = german[_N]
 </pre></div>
@@ -344,9 +374,8 @@ bysort persnr: replace german = german[_N]
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. clear all
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. set obs 100000
+
+. set obs 100000
 Number of observations (_N) was 0, now 100,000.
 
 . 
@@ -370,6 +399,9 @@ Number of observations (_N) was 0, now 100,000.
 (5,144 real changes made, 5,144 to missing)
 
 . 
+. gen ui = inrange(random, 0.05, 0.1)
+
+. 
 . gen german = runiformint(0,1)
 </pre></div>
 </div>
@@ -384,14 +416,15 @@ Number of observations (_N) was 0, now 100,000.
 </div>
 </div>
 </div>
-</div>
-<div class="tex2jax_ignore mathjax_ignore section" id="working-with-yearly-panels">
-<h1>Working with yearly panels<a class="headerlink" href="#working-with-yearly-panels" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="egen-max">
-<h2>Egen: max()<a class="headerlink" href="#egen-max" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="yearly-panels">
+<h2>Yearly Panels<a class="headerlink" href="#yearly-panels" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="replacing-egen-functions">
+<h3>Replacing egen functions<a class="headerlink" href="#replacing-egen-functions" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="max">
+<h4>max<a class="headerlink" href="#max" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- initialize variable
-- use max() function to get largest value into last observation determined by &#39;bysort&#39;
-    - note missings are ignored by max() unless *all* observations are missing
+- use max function to get largest value into last observation determined by &#39;bysort&#39;
+    - note missings are ignored by max unless *all* observations are missing
 - replace within &#39;bysort&#39; by the last observation
 </pre></div>
 </div>
@@ -423,8 +456,9 @@ bysort persnr: replace max_tentgelt = max_tentgelt[_N]
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="run-time-comparison">
-<h3>Run-time comparison<a class="headerlink" href="#run-time-comparison" title="Permalink to this headline">¶</a></h3>
+<h4>Run-time comparison<a class="headerlink" href="#run-time-comparison" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
@@ -495,9 +529,9 @@ timer list
 
 . 
 . timer list
-   1:      0.14 /        1 =       0.1410
-   2:      0.10 /        1 =       0.1010
-   3:      0.07 /        1 =       0.0710
+   1:      0.15 /        1 =       0.1530
+   2:      0.11 /        1 =       0.1080
+   3:      0.07 /        1 =       0.0740
 
 . 
 </pre></div>
@@ -506,8 +540,8 @@ timer list
 </div>
 </div>
 </div>
-<div class="section" id="egen-min">
-<h2>Egen: min()<a class="headerlink" href="#egen-min" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="min">
+<h3>min<a class="headerlink" href="#min" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>use bysort with implicit sorting on the variable of interest to (a) compute by groups and (b) utilize that sorting starts with the smallest value</p></li>
 </ul>
@@ -552,7 +586,7 @@ assert min_tentgelt == min_tentgelt_gegen
 </div>
 </div>
 <div class="section" id="id1">
-<h3>Run-time comparison<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h4>Run-time comparison<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
@@ -605,9 +639,9 @@ timer list
 
 . 
 . timer list
-   1:      0.15 /        2 =       0.0770
-   2:      0.20 /        2 =       0.1020
-   3:      0.09 /        2 =       0.0455
+   1:      0.16 /        2 =       0.0810
+   2:      0.21 /        2 =       0.1075
+   3:      0.09 /        2 =       0.0460
 
 . 
 </pre></div>
@@ -616,13 +650,14 @@ timer list
 </div>
 </div>
 </div>
-<div class="section" id="egen-rank">
-<h2>Egen: rank()<a class="headerlink" href="#egen-rank" title="Permalink to this headline">¶</a></h2>
-<p>rank is a little more subtle mostly because ties are broken in an arbitrary manner in the egen() function (and thus also for gegen)
+<div class="section" id="rank">
+<h3>rank<a class="headerlink" href="#rank" title="Permalink to this headline">¶</a></h3>
+<p>rank is a little more subtle mostly because ties are broken in an arbitrary manner in the egen function (and thus also for gegen)
 the default egen option, however, is to assign the average rank to equal observations
 while this is always unique it is harder to implement resorting only to sorting methods</p>
+</div>
 <div class="section" id="rank-low-to-high-non-arbitrary-tie-breaks">
-<h3>rank() - low-to-high, (non-)arbitrary tie breaks<a class="headerlink" href="#rank-low-to-high-non-arbitrary-tie-breaks" title="Permalink to this headline">¶</a></h3>
+<h3>rank - low-to-high, (non-)arbitrary tie breaks<a class="headerlink" href="#rank-low-to-high-non-arbitrary-tie-breaks" title="Permalink to this headline">¶</a></h3>
 <p>this is probably the easiest to implement</p>
 <ul class="simple">
 <li><p>implicitly sort by the variable to be ranked on and then use the _n index</p>
@@ -685,16 +720,15 @@ rank() is not a gtools function; will hash and use egen
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5144 missing values generated)
-
-. 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
 . sum rank*
 
     Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
 rank_tentg~t |     94,856    1.982605    1.137888          1          9
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rank_t~_egen |     94,856    1.982605    1.137888          1          9
+rank_t~_egen |     94,856    1.982605    1.137888          1          9
 rank_t~gegen |     94,856    1.982605    1.137888          1          9
 
 . 
@@ -708,9 +742,8 @@ rank_t~gegen |     94,856    1.982605    1.137888          1          9
 </div>
 </div>
 </div>
-</div>
 <div class="section" id="id2">
-<h2>Run-time comparison<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h3>Run-time comparison<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
@@ -773,8 +806,9 @@ timer list
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
-
-. timer off 2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 2
 
 . 
 . timer on 3
@@ -786,9 +820,7 @@ timer list
 . gen sortvar = runiform(0,1)
 
 . bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rank() is not a gtools function; will hash and use egen
+rank() is not a gtools function; will hash and use egen
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5144 missing values generated)
@@ -798,14 +830,109 @@ timer list
 
 . 
 . timer list
-   1:      0.19 /        3 =       0.0623
-   2:      0.42 /        3 =       0.1407
-   3:      0.33 /        3 =       0.1097
+   1:      0.20 /        3 =       0.0653
+   2:      0.45 /        3 =       0.1487
+   3:      0.36 /        3 =       0.1203
 
 . 
 </pre></div>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div class="section" id="specific-panel-variable-types">
+<h2>Specific Panel Variable Types<a class="headerlink" href="#specific-panel-variable-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ever">
+<h3>ever<a class="headerlink" href="#ever" title="Permalink to this headline">¶</a></h3>
+<p>using (g)egen max function (or replacement) with a conditional as the argument and sort by desired group</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+// Person-level
+gegen ever_ui = max(ui == 1), by(persnr)
+
+* Quick check variable is constant within persnr
+bysort persnr (ever_ui): assert ever_ui[1] == ever_ui[_N]
+
+// Person x establishment level
+gegen ever_ui_estab = max(ui == 1), by(persnr betnr)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. // Person-level
+. gegen ever_ui = max(ui == 1), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. * Quick check variable is constant within persnr
+. bysort persnr (ever_ui): assert ever_ui[1] == ever_ui[_N]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. // Person x establishment level
+. gegen ever_ui_estab = max(ui == 1), by(persnr betnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="previously">
+<h3>previously<a class="headerlink" href="#previously" title="Permalink to this headline">¶</a></h3>
+<p>replace by the perviously value conditional on it satisfying the condition
+implicitly sorting on year is important here</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+gen byte prev_ui = ui
+bysort persnr (year): replace prev_ui = max(prev_ui[_n-1], prev_ui)
+
+// alternative
+gen byte prev_ui2 = ui
+bysort persnr (year): replace prev_ui2 = 1 if prev_ui2[_n-1] == 1
+
+assert prev_ui == prev_ui2
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen byte prev_ui = ui
+
+. bysort persnr (year): replace prev_ui = max(prev_ui[_n-1], prev_ui)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,345 real changes made)
+
+. 
+. // alternative
+. gen byte prev_ui2 = ui
+
+. bysort persnr (year): replace prev_ui2 = 1 if prev_ui2[_n-1] == 1
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,345 real changes made)
+
+. 
+. assert prev_ui == prev_ui2
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="previously-in-current-establishment">
+<h3>previously in current establishment<a class="headerlink" href="#previously-in-current-establishment" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="prior-period">
+<h3>prior period<a class="headerlink" href="#prior-period" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="prior-establishment">
+<h3>prior establishment<a class="headerlink" href="#prior-establishment" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>
