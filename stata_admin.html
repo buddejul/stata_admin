@@ -261,17 +261,31 @@
 <h1>Stata Admin Programming<a class="headerlink" href="#stata-admin-programming" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">stata_setup</span>
-<span class="kn">import</span> <span class="nn">stata_setup</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">stata_setup</span>
 <span class="n">stata_setup</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;C:/Program Files/Stata17&quot;</span><span class="p">,</span> <span class="s2">&quot;se&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">  File</span><span class="nn"> &quot;C:\Users\budde\AppData\Local\Temp/ipykernel_15484/54536735.py&quot;</span><span class="gt">, line </span><span class="mi">1</span>
-    <span class="n">pip</span> <span class="n">install</span> <span class="n">stata_setup</span>
-              <span class="o">^</span>
-<span class="ne">SyntaxError</span>: invalid syntax
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      17.0
+___/   /   /___/   /   /___/       SE—Standard Edition
+
+ Statistics and Data Science       Copyright 1985-2021 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user , expiring  4 Oct 2022
+Serial number: 401709235122
+  Licensed to: Julian Budde
+               University of Oxford
+
+Notes:
+      1. Unicode is supported; see help unicode_advice.
+      2. Maximum number of variables is set to 5,000; see help set_maxvar.
 </pre></div>
 </div>
 </div>
@@ -296,6 +310,41 @@ bysort persnr: replace german = german[_N]
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. clear all
+
+. set obs 10000000
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of observations (_N) was 0, now 10,000,000.
+
+. 
+. gen betnr = runiformint(1, 1000)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen persnr = runiformint(1,100000)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen year = runiformint(1972, 2019)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. gen double tentgelt = runiform(0, 100000) 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. gen german = runiformint(0,1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort persnr: replace german = german[_N]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4,947,782 real changes made)
+
+. 
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -315,6 +364,24 @@ bysort persnr: replace german = german[_N]
 gen max_tentgelt = tentgelt
 bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
 bysort persnr: replace max_tentgelt = max_tentgelt[_N]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen max_tentgelt = tentgelt
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(9,482,089 real changes made)
+
+. bysort persnr: replace max_tentgelt = max_tentgelt[_N]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4,950,530 real changes made)
+
+. 
 </pre></div>
 </div>
 </div>
@@ -343,6 +410,59 @@ assert max_tentgelt == max_tentgelt_egen
 assert max_tentgelt == max_tentgelt_gegen
 
 timer list
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. drop max_tentgelt
+
+. timer on 1
+
+. gen double max_tentgelt = tentgelt
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(9,482,091 real changes made)
+
+. bysort persnr: replace max_tentgelt = max_tentgelt[_N]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4,950,530 real changes made)
+
+. timer off 1
+
+. 
+. timer on 2
+
+. egen double max_tentgelt_egen = max(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 2
+
+. 
+. timer on 3
+
+. gegen double max_tentgelt_gegen = max(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 3
+
+. 
+. assert max_tentgelt == max_tentgelt_egen
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. assert max_tentgelt == max_tentgelt_gegen
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. timer list
+   1:      1.40 /        1 =       1.3980
+   2:      3.87 /        1 =       3.8700
+   3:      2.30 /        1 =       2.2960
+
+. 
 </pre></div>
 </div>
 </div>
