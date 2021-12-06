@@ -1,0 +1,1002 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stata Admin Programming &#8212; My sample book</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Efficiency in Stata" href="efficiency.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">My sample book</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Stata Coding Practices for Large Data
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="efficiency.html">
+   Efficiency in Stata
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Stata Admin Programming
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/ieb_coding.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fieb_coding.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/ieb_coding.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up-simulated-data-in-stata">
+   Set up simulated data in Stata
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#yearly-panels">
+   Yearly Panels
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#replacing-egen-functions">
+     Replacing egen functions
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#max">
+       max
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#run-time-comparison">
+       Run-time comparison
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#min">
+     min
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Run-time comparison
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rank">
+     rank
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rank-low-to-high-non-arbitrary-tie-breaks">
+     rank - low-to-high, (non-)arbitrary tie breaks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Run-time comparison
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#specific-panel-variable-types">
+   Specific Panel Variable Types
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ever">
+     ever
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#previously">
+     previously
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#previously-in-current-establishment">
+     previously in current establishment
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prior-period">
+     prior period
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#prior-establishment">
+     prior establishment
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#distinguishing-establishments-after-gaps">
+   Distinguishing establishments after gaps
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="stata-admin-programming">
+<h1>Stata Admin Programming<a class="headerlink" href="#stata-admin-programming" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">stata_setup</span>
+<span class="n">stata_setup</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;C:/Program Files/Stata17&quot;</span><span class="p">,</span> <span class="s2">&quot;se&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      17.0
+___/   /   /___/   /   /___/       SE—Standard Edition
+
+ Statistics and Data Science       Copyright 1985-2021 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user , expiring  4 Oct 2022
+Serial number: 401709235122
+  Licensed to: Julian Budde
+               University of Oxford
+
+Notes:
+      1. Unicode is supported; see help unicode_advice.
+      2. Maximum number of variables is set to 5,000; see help set_maxvar.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="set-up-simulated-data-in-stata">
+<h2>Set up simulated data in Stata<a class="headerlink" href="#set-up-simulated-data-in-stata" title="Permalink to this headline">¶</a></h2>
+<p>Data broadly resembles a year panel based on IAB data with person (persnr), establishment (betnr) and year identifiers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+clear all
+set obs 100000
+
+gen betnr = runiformint(1, 1000)
+gen persnr = runiformint(1,100000)
+gen year = runiformint(1972, 2019)
+
+gen double tentgelt = runiform(0, 100000) 
+cap drop random
+gen random = runiform(0,1)
+replace tentgelt = . if random &lt; 0.05
+
+gen ui = inrange(random, 0.05, 0.1)
+
+gen german = runiformint(0,1)
+bysort persnr: replace german = german[_N]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. clear all
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. set obs 100000
+Number of observations (_N) was 0, now 100,000.
+
+. 
+. gen betnr = runiformint(1, 1000)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen persnr = runiformint(1,100000)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen year = runiformint(1972, 2019)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. gen double tentgelt = runiform(0, 100000) 
+
+. cap drop random
+
+. gen random = runiform(0,1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. replace tentgelt = . if random &lt; 0.05
+(5,144 real changes made, 5,144 to missing)
+
+. 
+. gen ui = inrange(random, 0.05, 0.1)
+
+. 
+. gen german = runiformint(0,1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort persnr: replace german = german[_N]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18,534 real changes made)
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="yearly-panels">
+<h2>Yearly Panels<a class="headerlink" href="#yearly-panels" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="replacing-egen-functions">
+<h3>Replacing egen functions<a class="headerlink" href="#replacing-egen-functions" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="max">
+<h4>max<a class="headerlink" href="#max" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- initialize variable
+- use max function to get largest value into last observation determined by &#39;bysort&#39;
+    - note missings are ignored by max unless *all* observations are missing
+- replace within &#39;bysort&#39; by the last observation
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+gen max_tentgelt = tentgelt
+bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
+bysort persnr: replace max_tentgelt = max_tentgelt[_N]
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen max_tentgelt = tentgelt
+(5,144 missing values generated)
+
+. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20,349 real changes made)
+
+. bysort persnr: replace max_tentgelt = max_tentgelt[_N]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18,474 real changes made)
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="run-time-comparison">
+<h4>Run-time comparison<a class="headerlink" href="#run-time-comparison" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+drop max_tentgelt
+timer on 1
+gen double max_tentgelt = tentgelt
+bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
+bysort persnr: replace max_tentgelt = max_tentgelt[_N]
+timer off 1
+
+timer on 2
+egen double max_tentgelt_egen = max(tentgelt), by(persnr)
+timer off 2
+
+timer on 3
+gegen double max_tentgelt_gegen = max(tentgelt), by(persnr)
+timer off 3
+
+assert max_tentgelt == max_tentgelt_egen
+assert max_tentgelt == max_tentgelt_gegen
+
+timer list
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. drop max_tentgelt
+
+. timer on 1
+
+. gen double max_tentgelt = tentgelt
+(5,144 missing values generated)
+
+. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20,349 real changes made)
+
+. bysort persnr: replace max_tentgelt = max_tentgelt[_N]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18,474 real changes made)
+
+. timer off 1
+
+. 
+. timer on 2
+
+. egen double max_tentgelt_egen = max(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 2
+
+. 
+. timer on 3
+
+. gegen double max_tentgelt_gegen = max(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 3
+
+. 
+. assert max_tentgelt == max_tentgelt_egen
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. assert max_tentgelt == max_tentgelt_gegen
+
+. 
+. timer list
+   1:      0.14 /        1 =       0.1360
+   2:      0.12 /        1 =       0.1160
+   3:      0.34 /        1 =       0.3390
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="min">
+<h3>min<a class="headerlink" href="#min" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>use bysort with implicit sorting on the variable of interest to (a) compute by groups and (b) utilize that sorting starts with the smallest value</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+bysort persnr (tentgelt): gen double min_tentgelt = tentgelt[1]
+
+egen double min_tentgelt_egen = min(tentgelt), by(persnr)
+
+gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
+
+assert min_tentgelt == min_tentgelt_egen
+assert min_tentgelt == min_tentgelt_gegen
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort persnr (tentgelt): gen double min_tentgelt = tentgelt[1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
+
+. 
+. egen double min_tentgelt_egen = min(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
+
+. 
+. assert min_tentgelt == min_tentgelt_egen
+
+. assert min_tentgelt == min_tentgelt_gegen
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h4>Run-time comparison<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+cap drop min_tentgelt*
+
+timer on 1
+bysort persnr (tentgelt): gen double min_tentgelt = tentgelt[1]
+timer off 1
+
+timer on 2
+egen double min_tentgelt_egen = min(tentgelt), by(persnr)
+timer off 2
+
+timer on 3
+gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
+timer off 3
+
+timer list
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. cap drop min_tentgelt*
+
+. 
+. timer on 1
+
+. bysort persnr (tentgelt): gen double min_tentgelt = tentgelt[1]
+(2,045 missing values generated)
+
+. timer off 1
+
+. 
+. timer on 2
+
+. egen double min_tentgelt_egen = min(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
+
+. timer off 2
+
+. 
+. timer on 3
+
+. gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 3
+
+. 
+. timer list
+   1:      0.15 /        2 =       0.0725
+   2:      0.22 /        2 =       0.1080
+   3:      0.36 /        2 =       0.1790
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="rank">
+<h3>rank<a class="headerlink" href="#rank" title="Permalink to this headline">¶</a></h3>
+<p>rank is a little more subtle mostly because ties are broken in an arbitrary manner in the egen function (and thus also for gegen)
+the default egen option, however, is to assign the average rank to equal observations
+while this is always unique it is harder to implement resorting only to sorting methods</p>
+</div>
+<div class="section" id="rank-low-to-high-non-arbitrary-tie-breaks">
+<h3>rank - low-to-high, (non-)arbitrary tie breaks<a class="headerlink" href="#rank-low-to-high-non-arbitrary-tie-breaks" title="Permalink to this headline">¶</a></h3>
+<p>this is probably the easiest to implement</p>
+<ul class="simple">
+<li><p>implicitly sort by the variable to be ranked on and then use the _n index</p>
+<ul>
+<li><p>caveat: missing values will be sorted to the end (as they are handled as infinitely large in Stata)</p></li>
+<li><p>this means that we can simply set the rank variable to missing for those with missing base variables</p></li>
+<li><p>the sorting will not be impacted as it is low-to-high</p></li>
+</ul>
+</li>
+<li><p>to make tie-breaks non arbitrary: implicitly sort by a simulated  variable</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+set seed 1234
+cap drop sortvar
+gen sortvar = runiform(0,1)
+
+bysort betnr year (tentgelt sortvar): gen rank_tentgelt = _n ///
+    if !missing(tentgelt)
+assert missing(rank_tentgelt) if missing(tentgelt)
+assert missing(tentgelt) if missing(rank_tentgelt)
+
+bysort betnr year (sortvar): egen rank_tentgelt_egen = rank(tentgelt)
+bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+
+sum rank*
+
+assert rank_tentgelt == rank_tentgelt_egen
+assert rank_tentgelt == rank_tentgelt_gegen
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. set seed 1234
+
+. cap drop sortvar
+
+. gen sortvar = runiform(0,1)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. bysort betnr year (tentgelt sortvar): gen rank_tentgelt = _n ///
+&gt;     if !missing(tentgelt)
+(5,144 missing values generated)
+
+. assert missing(rank_tentgelt) if missing(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. assert missing(tentgelt) if missing(rank_tentgelt)
+
+. 
+. bysort betnr year (sortvar): egen rank_tentgelt_egen = rank(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
+
+. bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+rank() is not a gtools function; will hash and use egen
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5144 missing values generated)
+
+. 
+. sum rank*
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+rank_tentg~t |     94,856    1.982605    1.137888          1          9
+rank_t~_egen |     94,856    1.982605    1.137888          1          9
+rank_t~gegen |     94,856    1.982605    1.137888          1          9
+
+. 
+. assert rank_tentgelt == rank_tentgelt_egen
+
+. assert rank_tentgelt == rank_tentgelt_gegen
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Run-time comparison<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+cap drop rank*
+timer on 1
+set seed 1234
+cap drop sortvar
+gen sortvar = runiform(0,1)
+bysort betnr year (tentgelt sortvar): gen rank_tentgelt = _n ///
+    if !missing(tentgelt)
+timer off 1
+
+timer on 2
+set seed 1234
+cap drop sortvar
+gen sortvar = runiform(0,1)
+bysort betnr year (sortvar): egen rank_tentgelt_egen = rank(tentgelt)
+timer off 2
+
+timer on 3
+set seed 1234
+cap drop sortvar
+gen sortvar = runiform(0,1)
+bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+timer off 3
+
+timer list
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. cap drop rank*
+
+. timer on 1
+
+. set seed 1234
+
+. cap drop sortvar
+
+. gen sortvar = runiform(0,1)
+
+. bysort betnr year (tentgelt sortvar): gen rank_tentgelt = _n ///
+&gt;     if !missing(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
+
+. timer off 1
+
+. 
+. timer on 2
+
+. set seed 1234
+
+. cap drop sortvar
+
+. gen sortvar = runiform(0,1)
+
+. bysort betnr year (sortvar): egen rank_tentgelt_egen = rank(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
+
+. timer off 2
+
+. 
+. timer on 3
+
+. set seed 1234
+
+. cap drop sortvar
+
+. gen sortvar = runiform(0,1)
+
+. bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rank() is not a gtools function; will hash and use egen
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5144 missing values generated)
+
+. timer off 3
+
+. 
+. timer list
+   1:      0.18 /        3 =       0.0597
+   2:      0.43 /        3 =       0.1440
+   3:      0.60 /        3 =       0.1990
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="specific-panel-variable-types">
+<h2>Specific Panel Variable Types<a class="headerlink" href="#specific-panel-variable-types" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ever">
+<h3>ever<a class="headerlink" href="#ever" title="Permalink to this headline">¶</a></h3>
+<p>using (g)egen max function (or replacement) with a conditional as the argument and sort by desired group</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+// Person-level
+gegen ever_ui = max(ui == 1), by(persnr)
+
+* Quick check variable is constant within persnr
+bysort persnr (ever_ui): assert ever_ui[1] == ever_ui[_N]
+
+// Person x establishment level
+gegen ever_ui_estab = max(ui == 1), by(persnr betnr)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. // Person-level
+. gegen ever_ui = max(ui == 1), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. * Quick check variable is constant within persnr
+. bysort persnr (ever_ui): assert ever_ui[1] == ever_ui[_N]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. // Person x establishment level
+. gegen ever_ui_estab = max(ui == 1), by(persnr betnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="previously">
+<h3>previously<a class="headerlink" href="#previously" title="Permalink to this headline">¶</a></h3>
+<p>replace by the perviously value conditional on it satisfying the condition
+implicitly sorting on year is important here</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+gen byte prev_ui = ui
+bysort persnr (year): replace prev_ui = max(prev_ui[_n-1], prev_ui)
+
+// alternative
+gen byte prev_ui2 = ui
+bysort persnr (year): replace prev_ui2 = 1 if prev_ui2[_n-1] == 1
+
+assert prev_ui == prev_ui2
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen byte prev_ui = ui
+
+. bysort persnr (year): replace prev_ui = max(prev_ui[_n-1], prev_ui)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,345 real changes made)
+
+. 
+. // alternative
+. gen byte prev_ui2 = ui
+
+. bysort persnr (year): replace prev_ui2 = 1 if prev_ui2[_n-1] == 1
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,345 real changes made)
+
+. 
+. assert prev_ui == prev_ui2
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="previously-in-current-establishment">
+<h3>previously in current establishment<a class="headerlink" href="#previously-in-current-establishment" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="prior-period">
+<h3>prior period<a class="headerlink" href="#prior-period" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="prior-establishment">
+<h3>prior establishment<a class="headerlink" href="#prior-establishment" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="distinguishing-establishments-after-gaps">
+<h2>Distinguishing establishments after gaps<a class="headerlink" href="#distinguishing-establishments-after-gaps" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="efficiency.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Efficiency in Stata</p>
+        </div>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By The Jupyter Book Community<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
