@@ -244,6 +244,35 @@
      </li>
     </ul>
    </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#egen-min">
+     Egen: min()
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Run-time comparison
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#egen-rank">
+     Egen: rank()
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#rank-low-to-high-non-arbitrary-tie-breaks">
+       rank() - low-to-high, (non-)arbitrary tie breaks
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Run-time comparison
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -297,13 +326,16 @@ Notes:
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
 clear all
-set obs 10000000
+set obs 100000
 
 gen betnr = runiformint(1, 1000)
 gen persnr = runiformint(1,100000)
 gen year = runiformint(1972, 2019)
 
 gen double tentgelt = runiform(0, 100000) 
+cap drop random
+gen random = runiform(0,1)
+replace tentgelt = . if random &lt; 0.05
 
 gen german = runiformint(0,1)
 bysort persnr: replace german = german[_N]
@@ -312,11 +344,10 @@ bysort persnr: replace german = german[_N]
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. clear all
-
-. set obs 10000000
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of observations (_N) was 0, now 10,000,000.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. set obs 100000
+Number of observations (_N) was 0, now 100,000.
 
 . 
 . gen betnr = runiformint(1, 1000)
@@ -330,16 +361,22 @@ bysort persnr: replace german = german[_N]
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
 . gen double tentgelt = runiform(0, 100000) 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+
+. cap drop random
+
+. gen random = runiform(0,1)
+
+. replace tentgelt = . if random &lt; 0.05
+(5,144 real changes made, 5,144 to missing)
+
+. 
 . gen german = runiformint(0,1)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort persnr: replace german = german[_N]
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4,947,782 real changes made)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18,534 real changes made)
 
 . 
 </pre></div>
@@ -369,17 +406,17 @@ bysort persnr: replace max_tentgelt = max_tentgelt[_N]
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. gen max_tentgelt = tentgelt
+(5,144 missing values generated)
+
+. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(9,482,089 real changes made)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20,349 real changes made)
 
 . bysort persnr: replace max_tentgelt = max_tentgelt[_N]
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4,950,530 real changes made)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18,474 real changes made)
 
 . 
 </pre></div>
@@ -419,17 +456,17 @@ timer list
 . timer on 1
 
 . gen double max_tentgelt = tentgelt
+(5,144 missing values generated)
+
+. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort persnr: replace max_tentgelt = max(max_tentgelt[_n-1], max_tentgelt)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(9,482,091 real changes made)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(20,349 real changes made)
 
 . bysort persnr: replace max_tentgelt = max_tentgelt[_N]
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4,950,530 real changes made)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(18,474 real changes made)
 
 . timer off 1
 
@@ -439,7 +476,9 @@ timer list
 . egen double max_tentgelt_egen = max(tentgelt), by(persnr)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 2
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
+
+. timer off 2
 
 . 
 . timer on 3
@@ -451,20 +490,320 @@ timer list
 
 . 
 . assert max_tentgelt == max_tentgelt_egen
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. assert max_tentgelt == max_tentgelt_gegen
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+
+. assert max_tentgelt == max_tentgelt_gegen
+
+. 
 . timer list
-   1:      1.40 /        1 =       1.3980
-   2:      3.87 /        1 =       3.8700
-   3:      2.30 /        1 =       2.2960
+   1:      0.14 /        1 =       0.1410
+   2:      0.10 /        1 =       0.1010
+   3:      0.07 /        1 =       0.0710
 
 . 
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="egen-min">
+<h2>Egen: min()<a class="headerlink" href="#egen-min" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>use bysort with implicit sorting on the variable of interest to (a) compute by groups and (b) utilize that sorting starts with the smallest value</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+bysort persnr (tentgelt): gen double min_tentgelt = tentgelt[1]
+
+egen double min_tentgelt_egen = min(tentgelt), by(persnr)
+
+gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
+
+assert min_tentgelt == min_tentgelt_egen
+assert min_tentgelt == min_tentgelt_gegen
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort persnr (tentgelt): gen double min_tentgelt = tentgelt[1]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
+
+. 
+. egen double min_tentgelt_egen = min(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
+
+. 
+. gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+. assert min_tentgelt == min_tentgelt_egen
+
+. assert min_tentgelt == min_tentgelt_gegen
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>Run-time comparison<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+cap drop min_tentgelt*
+
+timer on 1
+bysort persnr (tentgelt): gen double min_tentgelt = tentgelt[1]
+timer off 1
+
+timer on 2
+egen double min_tentgelt_egen = min(tentgelt), by(persnr)
+timer off 2
+
+timer on 3
+gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
+timer off 3
+
+timer list
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. cap drop min_tentgelt*
+
+. 
+. timer on 1
+
+. bysort persnr (tentgelt): gen double min_tentgelt = tentgelt[1]
+(2,045 missing values generated)
+
+. timer off 1
+
+. 
+. timer on 2
+
+. egen double min_tentgelt_egen = min(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
+
+. timer off 2
+
+. 
+. timer on 3
+
+. gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 3
+
+. 
+. timer list
+   1:      0.15 /        2 =       0.0770
+   2:      0.20 /        2 =       0.1020
+   3:      0.09 /        2 =       0.0455
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="egen-rank">
+<h2>Egen: rank()<a class="headerlink" href="#egen-rank" title="Permalink to this headline">¶</a></h2>
+<p>rank is a little more subtle mostly because ties are broken in an arbitrary manner in the egen() function (and thus also for gegen)
+the default egen option, however, is to assign the average rank to equal observations
+while this is always unique it is harder to implement resorting only to sorting methods</p>
+<div class="section" id="rank-low-to-high-non-arbitrary-tie-breaks">
+<h3>rank() - low-to-high, (non-)arbitrary tie breaks<a class="headerlink" href="#rank-low-to-high-non-arbitrary-tie-breaks" title="Permalink to this headline">¶</a></h3>
+<p>this is probably the easiest to implement</p>
+<ul class="simple">
+<li><p>implicitly sort by the variable to be ranked on and then use the _n index</p>
+<ul>
+<li><p>caveat: missing values will be sorted to the end (as they are handled as infinitely large in Stata)</p></li>
+<li><p>this means that we can simply set the rank variable to missing for those with missing base variables</p></li>
+<li><p>the sorting will not be impacted as it is low-to-high</p></li>
+</ul>
+</li>
+<li><p>to make tie-breaks non arbitrary: implicitly sort by a simulated  variable</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+set seed 1234
+cap drop sortvar
+gen sortvar = runiform(0,1)
+
+bysort betnr year (tentgelt sortvar): gen rank_tentgelt = _n ///
+    if !missing(tentgelt)
+assert missing(rank_tentgelt) if missing(tentgelt)
+assert missing(tentgelt) if missing(rank_tentgelt)
+
+bysort betnr year (sortvar): egen rank_tentgelt_egen = rank(tentgelt)
+bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+
+sum rank*
+
+assert rank_tentgelt == rank_tentgelt_egen
+assert rank_tentgelt == rank_tentgelt_gegen
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. set seed 1234
+
+. cap drop sortvar
+
+. gen sortvar = runiform(0,1)
+
+. 
+. bysort betnr year (tentgelt sortvar): gen rank_tentgelt = _n ///
+&gt;     if !missing(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
+
+. assert missing(rank_tentgelt) if missing(tentgelt)
+
+. assert missing(tentgelt) if missing(rank_tentgelt)
+
+. 
+. bysort betnr year (sortvar): egen rank_tentgelt_egen = rank(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
+
+. bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+rank() is not a gtools function; will hash and use egen
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5144 missing values generated)
+
+. 
+. sum rank*
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+rank_tentg~t |     94,856    1.982605    1.137888          1          9
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rank_t~_egen |     94,856    1.982605    1.137888          1          9
+rank_t~gegen |     94,856    1.982605    1.137888          1          9
+
+. 
+. assert rank_tentgelt == rank_tentgelt_egen
+
+. assert rank_tentgelt == rank_tentgelt_gegen
+
+. 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Run-time comparison<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">stata</span>
+cap drop rank*
+timer on 1
+set seed 1234
+cap drop sortvar
+gen sortvar = runiform(0,1)
+bysort betnr year (tentgelt sortvar): gen rank_tentgelt = _n ///
+    if !missing(tentgelt)
+timer off 1
+
+timer on 2
+set seed 1234
+cap drop sortvar
+gen sortvar = runiform(0,1)
+bysort betnr year (sortvar): egen rank_tentgelt_egen = rank(tentgelt)
+timer off 2
+
+timer on 3
+set seed 1234
+cap drop sortvar
+gen sortvar = runiform(0,1)
+bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+timer off 3
+
+timer list
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. cap drop rank*
+
+. timer on 1
+
+. set seed 1234
+
+. cap drop sortvar
+
+. gen sortvar = runiform(0,1)
+
+. bysort betnr year (tentgelt sortvar): gen rank_tentgelt = _n ///
+&gt;     if !missing(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
+
+. timer off 1
+
+. 
+. timer on 2
+
+. set seed 1234
+
+. cap drop sortvar
+
+. gen sortvar = runiform(0,1)
+
+. bysort betnr year (sortvar): egen rank_tentgelt_egen = rank(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
+
+. timer off 2
+
+. 
+. timer on 3
+
+. set seed 1234
+
+. cap drop sortvar
+
+. gen sortvar = runiform(0,1)
+
+. bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rank() is not a gtools function; will hash and use egen
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5144 missing values generated)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 3
+
+. 
+. timer list
+   1:      0.19 /        3 =       0.0623
+   2:      0.42 /        3 =       0.1407
+   3:      0.33 /        3 =       0.1097
+
+. 
+</pre></div>
 </div>
 </div>
 </div>
