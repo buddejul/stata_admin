@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stata Admin Programming &#8212; My sample book</title>
+    <title>Stata Admin Programming &#8212; Stata Admin Coding</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -80,7 +80,7 @@
       <img src="_static/logo.png" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">My sample book</h1>
+      <h1 class="site-logo" id="site-title">Stata Admin Coding</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
@@ -163,11 +163,11 @@
         aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button"
-            href="https://github.com/executablebooks/jupyter-book"><button type="button" class="btn btn-secondary topbarbtn"
+            href="https://github.com/buddejul/stata_admin"><button type="button" class="btn btn-secondary topbarbtn"
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fieb_coding.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/buddejul/stata_admin/issues/new?title=Issue%20on%20page%20%2Fieb_coding.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -188,7 +188,7 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/ieb_coding.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/buddejul/stata_admin/master?urlpath=tree/docs/ieb_coding.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -395,15 +395,15 @@ Number of observations (_N) was 0, now 100,000.
 . cap drop random
 
 . gen random = runiform(0,1)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. replace tentgelt = . if random &lt; 0.05
+
+. replace tentgelt = . if random &lt; 0.05
 (5,144 real changes made, 5,144 to missing)
 
 . 
 . gen ui = inrange(random, 0.05, 0.1)
-
-. 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
 . gen german = runiformint(0,1)
 </pre></div>
 </div>
@@ -513,9 +513,8 @@ timer list
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 2
+
+. timer off 2
 
 . 
 . timer on 3
@@ -527,15 +526,14 @@ timer list
 
 . 
 . assert max_tentgelt == max_tentgelt_egen
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. assert max_tentgelt == max_tentgelt_gegen
+
+. assert max_tentgelt == max_tentgelt_gegen
 
 . 
 . timer list
-   1:      0.14 /        1 =       0.1360
-   2:      0.12 /        1 =       0.1160
-   3:      0.34 /        1 =       0.3390
+   1:      0.17 /        1 =       0.1730
+   2:      0.11 /        1 =       0.1120
+   3:      0.08 /        1 =       0.0840
 
 . 
 </pre></div>
@@ -574,12 +572,12 @@ assert min_tentgelt == min_tentgelt_gegen
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
+
+. 
+. gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
-. gegen double min_tentgelt_gegen = min(tentgelt), by(persnr)
-
-. 
 . assert min_tentgelt == min_tentgelt_egen
 
 . assert min_tentgelt == min_tentgelt_gegen
@@ -630,8 +628,9 @@ timer list
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2,045 missing values generated)
-
-. timer off 2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 2
 
 . 
 . timer on 3
@@ -643,9 +642,9 @@ timer list
 
 . 
 . timer list
-   1:      0.15 /        2 =       0.0725
-   2:      0.22 /        2 =       0.1080
-   3:      0.36 /        2 =       0.1790
+   1:      0.18 /        2 =       0.0910
+   2:      0.24 /        2 =       0.1215
+   3:      0.11 /        2 =       0.0525
 
 . 
 </pre></div>
@@ -701,25 +700,26 @@ assert rank_tentgelt == rank_tentgelt_gegen
 . cap drop sortvar
 
 . gen sortvar = runiform(0,1)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. 
+
+. 
 . bysort betnr year (tentgelt sortvar): gen rank_tentgelt = _n ///
 &gt;     if !missing(tentgelt)
-(5,144 missing values generated)
-
-. assert missing(rank_tentgelt) if missing(tentgelt)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. assert missing(tentgelt) if missing(rank_tentgelt)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
+
+. assert missing(rank_tentgelt) if missing(tentgelt)
+
+. assert missing(tentgelt) if missing(rank_tentgelt)
 
 . 
 . bysort betnr year (sortvar): egen rank_tentgelt_egen = rank(tentgelt)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5,144 missing values generated)
-
-. bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
 rank() is not a gtools function; will hash and use egen
 </pre></div>
 </div>
@@ -727,12 +727,13 @@ rank() is not a gtools function; will hash and use egen
 
 . 
 . sum rank*
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    Variable |        Obs        Mean    Std. dev.       Min        Max
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
 -------------+---------------------------------------------------------
 rank_tentg~t |     94,856    1.982605    1.137888          1          9
-rank_t~_egen |     94,856    1.982605    1.137888          1          9
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rank_t~_egen |     94,856    1.982605    1.137888          1          9
 rank_t~gegen |     94,856    1.982605    1.137888          1          9
 
 . 
@@ -821,22 +822,22 @@ timer list
 . cap drop sortvar
 
 . gen sortvar = runiform(0,1)
-
-. bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rank() is not a gtools function; will hash and use egen
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. bysort betnr year (sortvar): gegen rank_tentgelt_gegen = rank(tentgelt)
+rank() is not a gtools function; will hash and use egen
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(5144 missing values generated)
-
-. timer off 3
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. timer off 3
 
 . 
 . timer list
-   1:      0.18 /        3 =       0.0597
-   2:      0.43 /        3 =       0.1440
-   3:      0.60 /        3 =       0.1990
+   1:      0.21 /        3 =       0.0710
+   2:      0.48 /        3 =       0.1613
+   3:      0.36 /        3 =       0.1213
 
 . 
 </pre></div>
@@ -984,7 +985,7 @@ assert prev_ui == prev_ui2
     <div class="container">
       <p>
         
-          By The Jupyter Book Community<br/>
+          By Julian Budde<br/>
         
             &copy; Copyright 2021.<br/>
       </p>
